@@ -49,13 +49,38 @@ void Game::HandleInput()
 void Game::MoveBlockLeft()
 {
     currentBlock.Move(0, -1);
+    if (IsBlockOutside())
+    {
+        currentBlock.Move(0, 1);
+    }
+}
+
+bool Game::IsBlockOutside()
+{
+    std::vector<Position> tiles = currentBlock.GetCellPositions();
+    for (Position tile : tiles)
+    {
+        if (grid.IsCellOutside(tile.row, tile.column))
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 void Game::MoveBlockRight()
 {
     currentBlock.Move(0, 1);
+    if (IsBlockOutside())
+    {
+        currentBlock.Move(0, -1);
+    }
 }
 void Game::MoveBlockDown()
 {
     currentBlock.Move(1, 0);
+    if (IsBlockOutside())
+    {
+        currentBlock.Move(-1, 0);
+    }
 }
